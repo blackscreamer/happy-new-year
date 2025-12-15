@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New Year Terminal</title>
+  <title>New Year — VS Code Terminal</title>
   <style>
     body {
       background: #1e1e1e;
@@ -15,34 +15,47 @@
       margin: 0;
       color: #d4d4d4;
     }
+
     .terminal {
       background: #0c0c0c;
-      border-radius: 6px;
+      border-radius: 8px;
       width: 90%;
       max-width: 760px;
       padding: 20px;
       box-shadow: 0 0 30px rgba(0,0,0,0.8);
     }
+
     .titlebar {
       color: #cccccc;
       margin-bottom: 12px;
       font-size: 14px;
     }
+
     .line { white-space: pre-wrap; margin-bottom: 6px; }
+
     .cursor::after {
       content: '█';
       animation: blink 1s infinite;
     }
+
     @keyframes blink {
       0%,50% { opacity: 1; }
       51%,100% { opacity: 0; }
     }
+
+    /* VS Code–like syntax colors */
+    .keyword { color: #569cd6; }
+    .string { color: #ce9178; }
+    .comment { color: #6a9955; }
+    .function { color: #dcdcaa; }
+
     .buttons {
       margin-top: 20px;
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
     }
+
     button {
       font-family: inherit;
       background: transparent;
@@ -52,6 +65,7 @@
       cursor: pointer;
       border-radius: 4px;
     }
+
     button:hover {
       background: #d4d4d4;
       color: #000;
@@ -60,7 +74,7 @@
 </head>
 <body>
 <div class="terminal">
-  <div class="titlebar">C:\\NewYear\\terminal.exe</div>
+  <div class="titlebar">VS Code — proposal.js</div>
   <div id="output"></div>
   <div class="buttons" id="controls"></div>
 </div>
@@ -68,17 +82,41 @@
 <script>
 const output = document.getElementById('output');
 const controls = document.getElementById('controls');
-let step = 0;
 
-function print(text) {
+let queue = [];
+let typing = false;
+
+function enqueue(text, isHTML = false) {
+  queue.push({ text, isHTML });
+  if (!typing) processQueue();
+}
+
+function processQueue() {
+  if (queue.length === 0) {
+    typing = false;
+    return;
+  }
+  typing = true;
+  const { text, isHTML } = queue.shift();
   const div = document.createElement('div');
-  div.className = 'line';
+  div.className = 'line cursor';
   output.appendChild(div);
+
   let i = 0;
+  const plain = isHTML ? (() => {
+    const t = document.createElement('div');
+    t.innerHTML = text;
+    return t.textContent;
+  })() : text;
+
   function type() {
-    if (i < text.length) {
-      div.textContent += text.charAt(i++);
-      setTimeout(type, 30);
+    if (i < plain.length) {
+      div.textContent += plain.charAt(i++);
+      setTimeout(type, 35);
+    } else {
+      div.classList.remove('cursor');
+      if (isHTML) div.innerHTML = text;
+      setTimeout(processQueue, 250);
     }
   }
   type();
@@ -94,64 +132,63 @@ function addButton(label, action) {
 
 function start() {
   clearButtons();
-  print('Minaaaaa, happy new yeeeaaar! 🎆');
-  print('I hope this year brings you joy, success, and everything your heart is wishing for');
+  enqueue('Minaaaaa, happy new yeeeaaar! 🎆');
+  enqueue('I hope this year brings you joy, success, and everything your heart is wishing for.');
   addButton('OK', chooseIntro);
 }
 
 function chooseIntro() {
   clearButtons();
-  print('Choose message length:');
-  addButton('Short intro', shortIntro);
-  addButton('Long intro', longIntro);
+  enqueue('Choose message length:');
+  addButton('Short', shortIntro);
+  addButton('Long', longIntro);
 }
 
 function shortIntro() {
   clearButtons();
-  print('So on this special day, it feels right to start the new year by writing a new version of us — line by line.');
+  enqueue('So on this special day, it feels right to start the new year by writing a new version of us — line by line.');
   addButton('OK', startCode);
 }
 
 function longIntro() {
   clearButtons();
-  print('From this message, you probably already know where this is heading…');
-  print('It’s been five months since we started talking, and I enjoyed it so much I didn’t feel the time pass.');
-  print('We talked every day, and I genuinely grew attached to you.');
-  print('As we say, “m3ak gelbi merta7”. To me, Mina, you’re truly special.');
-  print('So today feels like the perfect moment to write a new code of us — line by line, debugging the reds and celebrating the greens.');
+  enqueue('From this message, you probably already know where this is heading…');
+  enqueue('Five months of talking, every day, without feeling the time pass.');
+  enqueue('As we say, “m3ak gelbi merta7”. To me, Mina, you’re truly special.');
+  enqueue('Today feels like the perfect moment to write a new code of us — line by line.');
   addButton('OK', startCode);
 }
 
 function startCode() {
   clearButtons();
   const code = [
-    'const me = "Ready";',
-    'let you = "?"; // waiting for your input…',
+    '<span class="keyword">const</span> me = <span class="string">"Ready"</span>;',
+    '<span class="keyword">let</span> you = <span class="string">"?"</span>; <span class="comment">// waiting for your input…</span>',
     '',
-    'if (you === "Ready") {',
-    '  git.checkout("us-branch");',
-    '  git.merge(me, you);',
-    '  git.commit("Initial commit: Us v1.0 🚀");',
-    '} else {',
-    '  // no pressure, I’m not going anywhere',
-    '  keepTalking();',
+    '<span class="keyword">if</span> (you === <span class="string">"Ready"</span>) {',
+    '  git.<span class="function">checkout</span>(<span class="string">"us-branch"</span>);',
+    '  git.<span class="function">merge</span>(me, you);',
+    '  git.<span class="function">commit</span>(<span class="string">"Initial commit: Us v1.0 🚀"</span>);',
+    '} <span class="keyword">else</span> {',
+    '  <span class="comment">// no pressure, I’m not going anywhere</span>',
+    '  <span class="function">keepTalking</span>();',
     '}'
   ];
-  code.forEach(line => print(line));
+  code.forEach(line => enqueue(line, true));
   addButton('Push the code', pushCode);
   addButton('Shutdown system', shutdown);
 }
 
 function pushCode() {
   clearButtons();
-  print('> git commit successful ❤️');
-  print('> status: happily deployed');
+  enqueue('> git commit successful ❤️');
+  enqueue('> status: happily deployed');
 }
 
 function shutdown() {
   clearButtons();
-  print('> System shutting down…');
-  print('> keepTalking() still running ☺️');
+  enqueue('> System shutting down…');
+  enqueue('> keepTalking() still running ☺️');
 }
 
 addButton('OK', start);
