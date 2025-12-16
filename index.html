@@ -143,7 +143,7 @@
 </head>
 <body>
     <div class="terminal">
-        <div class="titlebar">GOTCHA</div>
+        <div class="titlebar">hello hello pillow expert</div>
         <div id="output"></div> 
         <div class="buttons" id="controls"></div>
     </div>
@@ -154,7 +154,7 @@
             const controls = document.getElementById('controls');
 
             // Timing variables
-            const TYPE_SPEED_MS = 60; // Slower Typing Speed
+            const TYPE_SPEED_MS = 65; // Slower Typing Speed
             const LINE_DELAY_MS = 250; 
             // Removed POPPER_DURATION_MS
 
@@ -231,38 +231,34 @@
                 
                 type();
             }
-            
-            // --- Animation Logic (Removed) ---
-            // Removed: function startFireworks() { ... }
+           
 
             // --- Scene Functions ---
 
             function start() {
                 clearButtons();
-                enqueue('TEST TEST TEST\n1 2 1 2\nwell i guess it\'s working all fine ( hmmm i guess )');
-                enqueue('NOW, take a seat and press Start when ready to show the rest');
+                enqueue('TEST TEST TEST\n1 2 1 2\nwell I guess it\'s working all fine ( hmmm i guess )');
+                enqueue('Hey Mina, I built this specifically for you... hope you\'re ready.');
                 addButton('Start', happyNewYear);
             }
 
             function happyNewYear() {
                 clearButtons();
-                // Removed: startFireworks(); 
                 
-                enqueue('HAPPYYYYY NEW YEAAAAAR MINAAAAAAA 🎆\nI hope this year will be full of successful coding for you and less of debugging 😂, pleine de joie et de bonheuuuuur, أما بعد');
-                enqueue('I don\'t want to make it too long for you, you know how much I like to yap. Mina, I LIKE you, there\'s no doubt about it, I can\'t hide the fact that I\'ve gotten attached to you.');
-                enqueue('As an architect, you have become the pilar to my days. Like you said, talking to you feels special and natural.');
-                enqueue('We have known each other for quite a while now, and I feel like you are just the right girl for me on every aspect possible, You are attractive smart fun kind and the list goes on, you are just PERFECT for me mina.');
-                enqueue('On this day, I think it\'s the perfect occasion for us to start the new year together, to build something real like writing a new code of us - line by line, laughing and enjoying when it\'s green and sticking as one when it\'s all red, debugging it until it\'s green again.');
-                enqueue('And to keep it coding related there is no better way but to ask you in the language you are familiar with :');
+                enqueue('Mina, I\'ll keep this short to spare you my yapping! I like you, and I’ve reached a point where I can\'t hide how much you mean to me.');
+                enqueue('I\'d say you’ve become the foundation of my days. You are perfect to me; everything about our connection feels so special and natural.');
+                enqueue('Even with no obligation at all, I genuinely want to share my days with you and hear everything about yours.');
+                enqueue('On this day, I think it’s the perfect occasion for us to start the new year together. Let’s write the code for "us" — line by line, laughing when it’s green, and sticking together as one when it’s all red, debugging our way through until it\'s green again.');
+                enqueue('I’ll make the initiative of starting the first lines myself...');
 
-                addButton('Start coding', startCoding);
+                addButton('Start the code', startCoding);
             }
 
             function startCoding() {
                 clearButtons();
                 const code = [
-                    '<span class="keyword">const</span> me = <span class="string">"Ready"</span>;',
-                    '<span class="keyword">let</span> you = <span class="string">"?"</span>; <span class="comment">// waiting for your input…</span>',
+                    '<span class="keyword">const</span> me el mi3mari = <span class="string">"Ready"</span>;',
+                    '<span class="keyword">let</span> you pillow expert = <span class="string">"?"</span>; <span class="comment">// waiting for your input…</span>',
                     '', 
                     '<span class="keyword">if</span> (you === <span class="string">"Ready"</span>) {',
                     '  git.<span class="function">checkout</span>(<span class="string">"us-branch"</span>);',
